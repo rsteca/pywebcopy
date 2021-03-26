@@ -229,7 +229,7 @@ class WebPage(Parser, _ElementFactory):
         LOGGER.log(100, "Queueing download of <%d> asset files." % len(elms))
 
 
-        with ThreadPool(processes=10) as tp:
+        with ThreadPool(processes=30) as tp:
             for _ in tp.imap(lambda e: e.run(), elms):
                 pass
 
