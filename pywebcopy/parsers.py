@@ -213,6 +213,11 @@ class Parser(object):
         """
         attribs = el.attrib
         tag = _nons(el.tag)
+
+        if tag == 'link' and attribs.get('rel') == 'alternate':
+            # discard "alternate" links since they are useless
+            return None
+
         if tag == 'object':  # pragma: no cover
             codebase = None
             if 'codebase' in attribs:
