@@ -53,8 +53,8 @@ class FileMixin(URLTransformer):
 
     def run(self):
         # XXX: This could wait for any condition
-        with POOL_LIMIT:
-            self.download_file()
+        # with POOL_LIMIT:
+        self.download_file()
 
     save_file = run
 
@@ -302,44 +302,44 @@ class LinkTag(TagBase):
         Thus css file content needs to be searched for urls and then it will proceed
         as usual.
         """
-        with POOL_LIMIT:
-            if os.path.exists(self.file_path):
-                if not config['over_write']:
-                    LOGGER.info("File already exists at location: [%r]" % self.file_path)
-                    return
-            # LinkTags can also be specified for elements like favicon etc.
-            # Thus a check is necessary to validate it is a proper css file or not.
-            if not self._url.endswith('.css'):
-                super(LinkTag, self).run()
-
-            # Custom request object creation
-            req = SESSION.get(self.url, stream=True)
-
-            # if some error occurs
-            if not req or not req.ok:
-                LOGGER.error("URL returned an unknown response: [%s]" % self.url)
+        # with POOL_LIMIT:
+        if os.path.exists(self.file_path):
+            if not config['over_write']:
+                LOGGER.info("File already exists at location: [%r]" % self.file_path)
                 return
+        # LinkTags can also be specified for elements like favicon etc.
+        # Thus a check is necessary to validate it is a proper css file or not.
+        if not self._url.endswith('.css'):
+            super(LinkTag, self).run()
 
-            # Try to avoid pulling the contents in the ram
-            # while substituting urls in the contents would NOT
-            # work as expected because the regex won't match
-            # correctly, thus we have to load the whole file
-            # in at once. But will try to minimise the footprint
-            # Extracts urls from `url()` and `@imports` rules in the css file.
-            # the regex matches all those with double mix-match quotes and normal ones
-            # all the linked files will be saved and file paths would be replaced accordingly
-            contents = self.replace_urls(req.content, self.repl)
+        # Custom request object creation
+        req = SESSION.get(self.url, stream=True)
 
-            # log amount of links found
-            LOGGER.info('[%d] CSS linked files are found in file [%s]'
-                        % (len(self._stack), self.file_path))
+        # if some error occurs
+        if not req or not req.ok:
+            LOGGER.error("URL returned an unknown response: [%s]" % self.url)
+            return
 
-            # Save the content
-            self.write_file(contents)
+        # Try to avoid pulling the contents in the ram
+        # while substituting urls in the contents would NOT
+        # work as expected because the regex won't match
+        # correctly, thus we have to load the whole file
+        # in at once. But will try to minimise the footprint
+        # Extracts urls from `url()` and `@imports` rules in the css file.
+        # the regex matches all those with double mix-match quotes and normal ones
+        # all the linked files will be saved and file paths would be replaced accordingly
+        contents = self.replace_urls(req.content, self.repl)
 
-            # Also invoke the files stored in sub-files stack
-            for f in self._stack:
-                f.run()
+        # log amount of links found
+        LOGGER.info('[%d] CSS linked files are found in file [%s]'
+                    % (len(self._stack), self.file_path))
+
+        # Save the content
+        self.write_file(contents)
+
+        # Also invoke the files stored in sub-files stack
+        for f in self._stack:
+            f.run()
 
 
 class NullTag(TagBase):
