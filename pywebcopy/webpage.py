@@ -33,7 +33,7 @@ Usage::
 import logging
 import os
 import threading
-import multiprocessing
+from multiprocessing.pool import ThreadPool
 from operator import attrgetter
 
 from .globals import POOL_LIMIT
@@ -229,7 +229,7 @@ class WebPage(Parser, _ElementFactory):
         LOGGER.log(100, "Queueing download of <%d> asset files." % len(elms))
 
 
-        with multiprocessing.pool.ThreadPool(processes=5) as tp:
+        with ThreadPool(processes=5) as tp:
             for _ in tp.imap(lambda e: e.run(), elms):
                 pass
 
