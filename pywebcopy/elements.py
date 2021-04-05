@@ -108,9 +108,9 @@ class FileMixin(URLTransformer):
         req.raw.decode_content = True
 
         if req is None or not req.ok:
-            LOGGER.error(
-                'Failed to load the content of file %s from %s' % (file_path, url)
-            )
+            # LOGGER.error(
+            #     'Failed to load the content of file %s from %s' % (file_path, url)
+            # )
             return
 
         #: A dynamic file type check is required to take in context of

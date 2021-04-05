@@ -226,7 +226,7 @@ class WebPage(Parser, _ElementFactory):
 
         elms = list(self.elements)
 
-        LOGGER.log(100, "Queueing download of <%d> asset files." % len(elms))
+        # LOGGER.log(100, "Queueing download of <%d> asset files." % len(elms))
 
         self._tp = ThreadPool(processes=100)
         self._tp.map_async(lambda e: e.run(), elms)
