@@ -254,7 +254,10 @@ class WebPage(Parser, _ElementFactory):
 
         # Create directories if necessary
         if not os.path.exists(os.path.dirname(file_name)):
-            os.makedirs(os.path.dirname(file_name))
+            try:
+                os.makedirs(os.path.dirname(file_name))
+            except FileExistsError:
+                pass
 
         if raw_html:
             src = getattr(self, '_source')

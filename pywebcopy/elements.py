@@ -317,7 +317,7 @@ class LinkTag(TagBase):
 
         # if some error occurs
         if not req or not req.ok:
-            LOGGER.error("URL returned an unknown response: [%s]" % self.url)
+            # LOGGER.error("URL returned an unknown response: [%s]" % self.url)
             return
 
         # Try to avoid pulling the contents in the ram
