@@ -147,8 +147,9 @@ class FileMixin(URLTransformer):
                 copyfileobj(req.raw, f)
                 f.write(self._watermark(url))
         except OSError:
-            LOGGER.critical("Download failed for the file of "
-                            "type %s to location %s" % (file_ext, file_path))
+            # LOGGER.critical("Download failed for the file of "
+            #                 "type %s to location %s" % (file_ext, file_path))
+            pass
         except Exception as e:
             LOGGER.critical(e)
         else:
@@ -192,8 +193,8 @@ class FileMixin(URLTransformer):
                     pass
 
         if not is_allowed(file_ext):
-            LOGGER.error("File of type %r at url %r is not allowed to be "
-                         "downloaded!" % (file_ext, url))
+            # LOGGER.error("File of type %r at url %r is not allowed to be "
+            #              "downloaded!" % (file_ext, url))
             return
 
         try:
@@ -204,8 +205,9 @@ class FileMixin(URLTransformer):
                 copyfileobj(file_like_object, f)
                 f.write(self._watermark(url))
         except OSError:
-            LOGGER.exception("Download failed for the file of type %s to "
-                             "location %s" % (file_ext, file_path), exc_info=True)
+            # LOGGER.exception("Download failed for the file of type %s to "
+            #                  "location %s" % (file_ext, file_path), exc_info=True)
+            pass
         except Exception as e:
             LOGGER.critical(e)
         else:
