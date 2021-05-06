@@ -135,8 +135,8 @@ class FileMixin(URLTransformer):
                     file_ext = ext
                     break
             else:
-                LOGGER.error("File of type %r at url %r is not allowed "
-                             "to be downloaded!" % (file_ext, url))
+                # LOGGER.error("File of type %r at url %r is not allowed "
+                #              "to be downloaded!" % (file_ext, url))
                 return
 
         try:
