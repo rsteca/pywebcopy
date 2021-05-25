@@ -20,8 +20,8 @@ from pyquery import PyQuery
 from w3lib.encoding import html_to_unicode
 from parse import findall, search as parse_search
 
-from lxml.etree import Comment, HTMLParser
-from lxml.html import parse as lxml_parse, fromstring, tostring
+# from lxml.etree import Comment
+from lxml.html import parse as lxml_parse, fromstring, tostring, HTMLParser
 from lxml.html.clean import Cleaner
 # noinspection PyProtectedMember
 from lxml.html import (
@@ -163,9 +163,9 @@ class Parser(object):
         self._tree = context_tree
         self.root = context_tree.getroot()
 
-        if self.root is not None:
-            # WaterMarking :)
-            self.root.insert(0, Comment(MARK.format('', __version__, utx.url, utc_now(), '')))
+        # if self.root is not None:
+        #     # WaterMarking :)
+        #     self.root.insert(0, Comment(MARK.format('', __version__, utx.url, utc_now(), '')))
 
         # There are internal links present on the html page which are files
         # that includes `#` and `javascript:` and 'data:base64;` type links
@@ -431,8 +431,9 @@ class MultiParser(object):  # pragma: no cover
 
     def _write_mark(self, text):
         """Writes a watermark comment in the parsed html."""
-        if self.lxml is not None:
-            self.lxml.insert(0, Comment(text))
+        # if self.lxml is not None:
+        #     self.lxml.insert(0, Comment(text))
+        pass
 
     @property
     def bs4(self):
