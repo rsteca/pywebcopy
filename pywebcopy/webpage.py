@@ -33,7 +33,10 @@ Usage::
 import logging
 import os
 import threading
-from multiprocessing.pool import ThreadPool
+try:
+    from gevent.threadpool import ThreadPool
+except:
+    from multiprocessing.pool import ThreadPool
 from operator import attrgetter
 
 from .globals import POOL_LIMIT
