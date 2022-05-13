@@ -33,10 +33,7 @@ Usage::
 import logging
 import os
 import threading
-try:
-    from gevent.threadpool import ThreadPool
-except:
-    from multiprocessing.pool import ThreadPool
+from gevent.threadpool import ThreadPool
 from operator import attrgetter
 
 from .globals import POOL_LIMIT
@@ -231,7 +228,7 @@ class WebPage(Parser, _ElementFactory):
 
         # LOGGER.log(100, "Queueing download of <%d> asset files." % len(elms))
 
-        self._tp = ThreadPool(processes=1000)
+        self._tp = ThreadPool(maxsize=1000)
         self._tp.map_async(lambda e: e.run(), elms)
 
         # for elem in elms:
